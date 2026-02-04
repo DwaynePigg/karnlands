@@ -1,0 +1,619 @@
+1993
+
+Desert                         	***
+Actually rarely relevant.  I guess if you're getting swarmed by saprolings, this will cut down on the damage over time, but I used to run this and found it to really underperform.  It seems like it would be good at finishing off (or at least threatening to finish off) attackers that you were 1 point away from killing in combat, but that situation never really seemed to come up.
+
+Elephant Graveyard             	*
+I checked, and there is no Clockwork Elephant, sorry.  Mutavault is the only thing close to that, and then shouldn't you just play Swarmyard?  Besides, I'm pretty sure this card is stupidly expensive.
+
+1994
+
+Mishra's Factory               	*****
+The standard by which all other manlands are judged.  Decades later and it’s still great.
+
+Mishra's Workshop              	?
+Banned in Duel Commander, costs a fortune, overpowered.  No rating.
+
+Strip Mine                     	?
+Another card banned in Duel Commander.  It's not overpowered, so I wouldn't feel too bad running it, but I personally don't.  Maybe it just feels too easy.
+
+The Urzatron                        ***
+I see so many Karn decks running this, and I really don't get it.  How many times do you actually assemble it?  Maybe 1 out of 20 games?  If these were replaced with three utility lands, how often do you think you'd be activating them?  An extra 4 mana is a big deal, but it just seems like wasted potential. (As of 2024, this is probably worth running, but for weird reasons.)
+
+City of Shadows                	*
+I guess with Myr Turbine you might have something interesting going, but what you're looking for are lands that only have upsides.
+
+Maze of Ith                         *****
+I’m not going to review all those weird lands that don’t make mana, like Safe Haven and Sorrow’s Path, but I’ll make an exception for Maze of Ith, which is by far the best.  Try to think of this more like a Rock Jockey than a land (we all remember that card, right?) but obviously it’s tutorable with Expedition Map and stuff.
+I originally didn’t even have a review for this card, since until 2016 it had never been reprinted and it was a bit pricey, plus it had that old old land frame that just never looked right, along with its gross art.  Normally I love weird, old cards, but it was also too popular and I’ve always been a bit of a hipster.  Now I feel like it’s almost hidden tech again.
+Fun fact: In an old issue of InQuest magazine, they had a quiz to test your Magic knowledge, and the final question was this: You have no permanents in play, no cards in your hand, and you’re at 1 life.  Your opponent plays a Force of Nature.  What is the only card you could draw on your next turn to stabilize your position?
+Even funner fact: I don’t think the answer has changed since then!
+Okay, almost none of that was an actual review.  I don’t know, it’s a great card.  Play it.  But I feel like I’m giving non-land advice at this point.
+
+1996
+
+Crystal Vein                   	***
+I personally don’t like this, but sometimes a single extra mana, at the cost of one less mana on every future turn, is a price worth paying.
+
+1997
+
+Griffin Canyon                 	*
+Only combos with Mutavault.  Maybe one day they'll print Platinum Griffin and it'll be sick, but until then...
+Nov. 2020: They just printed Bladegriff Prototype.  This land is, in fact, still not sick.
+
+Quicksand                      	**
+Same thoughts here as with Desert, but in some ways it’s a little better.  Yes, you have to sacrifice it, but it’s more likely to actually do something, and the power reduction allows for more strategic blocking.
+
+Scorched Ruins                 	***
+I personally don't run this because I'm terrified that it would get Ghost Quartered and I wouldn't know what to do with my life.  But I think it might be good.  It also makes Deserted Temple basically tap for 3, and it's an amazing Thespian's Stage target.
+
+Winding Canyons                	***
+Powerful effect, but I haven't found it to come up all that often.  I think the deck is just so mana-hungry that a lot of the time you're better off playing your creatures normally and using your mana on other stuff.  Still, though, surprises are something that a Karn deck lacks in general, so just having this land out can make people play differently.
+
+Ancient Tomb                   	****
+Clearly very powerful, and with 40 life you can use it quite a bit before it starts getting prohibitive.  Still, I like to generate my extra mana the fair way: Temple of the False God.  My advice?  Save your money and don’t paint a target on yourself.
+
+Ghost Town                     	**
+This may seem borderline useless, but it’s not a few upsides.  Most obviously, it survives Armageddon.  But beyond that: 1) Funny combo with Seer's Sundial (which was a card I ran in 2012), but since you have to use it on your opponent's turn, you might end up drawing a land and feeling silly.  2) It's a "placeholder" for Vesuva.  No copy-worthy lands in play and you want to drop your Vesuva?  Just copy this and wait for a better target.  3) Tom Wänerstrand art!
+
+Maze of Shadows                	*
+I give this the "smallest upside with no downside" award.  This was in the first draft of my Karn deck, back when there weren't even 40 lands with any upside, but I've decided I have to leave it in until it's useful.  I don't even need to use it, I just want my opponent to be about to attack with his Looter il-Kor, look over, and say, "Really!?"  Only then will I feel right taking this out.
+...That’s what I told myself.  But several years later, I took it out without ever having activated it.  (2023 Update: I’ve given it a new home in my retro-border Karn deck!  Still never activated.)
+
+Stalking Stones                	***
+Being a permanent effect is pretty strong.  Animate at the opponent's end step, attach equipment on your turn, and go to town.
+
+Wasteland                      	*****
+If you're willing to spend the money for a slight upgrade to Tectonic Edge, go for it.  This is the top of the line.
+
+1998
+
+City of Traitors               	*
+I've never played with this card but I can't imagine it's great in EDH.  Yeah, it gives you some temporary reach, but at what cost?
+
+Blasted Landscape              	***
+Once it's in play, it's useless.  Of course, when you're looking at your lands, wondering which are safe to tap, you always know this one is a safe bet.  That's an upside, right?  Anyway, obviously great if you draw it while flooded.
+
+1999
+
+Dust Bowl                      	****
+The thing is, I rarely feel the need to use my Tectonic Edge twice in one game, so this is often unwieldy for what it does.  One advantage it does have over other Strip Mine variants is that it's a great response to your opponents' Strip Mines.
+
+High Market                    	*****
+Having a sacrifice outlet has so many hidden benefits.  Opponent wants to exile or steal something?  Put it safely into your graveyard.  Getting low on life?  Start popping those Myr tokens or whatever.  Spine of Ish Sah stuck in play?  Simply use your general to animate it!
+May 2023: I’ve switched over to the new Karn and cut this in favor of Phyrexia’s Core.
+
+Rath's Edge                    	**
+Maybe I'm a sucker for old-frame nostalgia, but I still like this.  The activation cost is insanely steep, but what do you want from a land that can deal direct damage?  I once used this in combination with a Staff of Nin to kill a Crypt Ghast that really needed to die, but that might be the only time I’ve ever used it.
+
+Rishadan Port                  	****
+This can be extremely annoying if you have nothing to do on turn 3 other than stop someone from casting Cultivate.  Don’t make enemies for no reason!
+
+Tower of the Magistrate        	****
+The usual use of this card (which the designers could have never foreseen) is as a repeatable Disarm, but Karn himself is pretty good at doing that (likewise unforeseen)!  Still, redundancy is never bad.  (And if you’ve moved on from OG Karn, this is very much worth it.)  But even playing this straight often works out: you’ll feel pretty smart when your opponent attacks you with a Wurmcoil Engine into your empty board, so you animate your Mishra’s Factory and give it protection.  (They won't even gain any life!)
+
+2000
+
+Wintermoon Mesa                	*
+Even if it came into play untapped, its utility would be questionable.  You're sacrificing real advantage for only the possibility that you're temporarily screwing someone up.  Too bad, it’s got more great Tom Wänerstrand art.
+
+2001
+
+Deserted Temple                	****
+There are lots of lands with good tap abilities (Maze of Ith, Springjack Pasture?), and doubling up on them can be great.  Being the opposite of Rishadan Port, you can try to win friends and influence people by giving them some early ramp.
+
+Petrified Field                	***
+Sometimes this effect comes up, and it's great.  Getting back Buried Ruin is probably your best bet, but there are so many self-sacrificing lands that this lets you reuse.
+
+2002: Objectively the worst year in history, as no colorless lands were printed.  I mean, the same thing happened in 1995, but that’s when Homelands came out and the game almost died, so I’ll give them a pass.
+
+2003
+
+Temple of the False God        	*****
+The gold standard for generating 2 mana.  The drawback does come up: sometimes you're stuck with this and three other lands in the early game.  But I've found that to be pretty rare.
+
+Blinkmoth Well                 	***
+Actually not that bad, perhaps at its best when strategically shutting off Howling Mines.  (Does anyone still play that card?)  It occasionally forces opponents to use artifacts that have a tap ability or miss using it for a turn, like Oblivion Stone.
+
+Cloudpost                      	*
+Obviously only good when you also get Glimmerpost (or Vesuva).  If it was sometimes just a "basic" land, that's one thing, but since it comes into play tapped, it's really not worth including.
+
+2004
+
+Blinkmoth Nexus                	*****
+Carries equipment (notably swords, as it has evasion), chump blocks giant dragons, and allows Inkmoth Nexus to deal out one extra poison counter.  Generally better than Mishra’s Factory!
+
+Darksteel Citadel              	****
+Okay, what does being an artifact really get you?  Maybe less than you’re imagining.  You can sacrifice it to Trading Post or Kuldotha Forgemaster, use it to keep Etched Champion alive in the very early game... it's not amazing, but it certainly has its uses and is probably worth running.  And hey, if your friends like to play Armageddon, you get that small head start.
+
+Boseiju, Who Shelters All      	*
+When you need to make sure that All Really Is Dust.  (In other words, terrible.)
+
+Hall of the Bandit Lord        	***
+So many drawbacks!  Still, this can be totally worth it.  Getting the drop on an opponent with Steel Hellkite, Wurmcoil Engine, or an Eldrazi can make all the difference.  However, like Maze of Ith, don’t count this as a land!
+
+Untaidake, the Cloud Keeper    	**
+Up until 2025, by review simply read: “Ha ha, no.”  I think that’s a fair review if your general is OG Karn, but if you’re playing Legacy Reforged, powering him out a turn early with a terrible Ancient Tomb could well be worth it.
+
+2005
+
+Gods' Eye, Gate to the Reikai  	*
+Not worth it, even if you're running Dust Bowl and Rath's Edge.
+
+Mikokoro, Center of the Sea    	****
+Great in multiplayer games when you want people to like you.  Also great at getting yourself out of a slump.  A very powerful effect to see on a land.
+
+Miren, the Moaning Well        	****
+Sacrifice outlets are always nice to have, and this one might be a little expensive to activate, but at least it can actually put you back in the game if you have a Metalwork Colossus or something.  Saviors of Kamigawa might have been a terrible set, but at least it got nonbasic lands right.
+
+2006
+
+Ghost Quarter                  	****
+One of the best Strip Mine variants.  While it doesn’t actually put them down a land, it’s one of the only land killers that can hit basics, meaning it can remove Underworld Connections (does anyone still play that?).
+
+Mouth of Ronom; Scrying Sheets      *
+Maybe when they print Snow-Covered Wastes, we can play both of these and it still won't even be worth it.
+Feb 2024 Update: Oh my god, it was only a joke!
+
+Gemstone Caverns               	**
+I used to run this.  It's funny.  Probably a lot better in one-on-one.  Definitely on the lower end of useful, though.
+
+Swarmyard                      	**
+Yeah, it regenerates Mutavault, which is cool.  But aside from that:
+Insect: There are actually quite a few artifact insects, but none are amazing.  Hornet Cannon actually destroys the tokens it creates, strangely enough.
+Rat: Nope.
+Spider: Make the ultimate blocker with Arachnoid? (Nov 2022 Update: Okay, we actually have a good spider now, though it’s not worth protecting that much.)
+Squirrel: You can stretch out the chump blockers that Acorn Catapult makes, I guess.
+
+Urza's Factory                 	***
+Activating this is rarely the best thing to do with 7 mana, but when you need it, a 2/2 without loss of card advantage can be pretty powerful.  I can’t believe it took 14 years to get the token for it, though.
+
+Vesuva                         	*****
+This card has two drawbacks: it comes into play tapped, and you can be forced to play it with no good targets.  Fortunately, most of the lands in a Karn deck are at least sort of worth copying.  Temple of the False God seems to be what I end up copying the most.  You just can never have enough mana.
+
+2007
+
+Urborg, Tomb of Yawgmoth       	***
+It may fix your opponents’ mana and give them a target for their swampwalkers, but this can actually be useful in that it turns cards like Maze of Ith into mana producers.
+
+Zoetic Cavern                  	***
+As there are no other colorless morphs that are remotely playable, you won't be fooling anyone who's heard of this card.  So it's basically a split card: Wastes / Gray Ogre.  Except that the Gray Ogre can cheat death by becoming a land.  Okay, bad analogy, but it's a decent card.
+
+2008
+
+Mutavault                      	****
+A slightly worse Mishra's Factory that sometimes steals sliver abilities?  Definitely worth considering.  I guess if you really want to run Swarmyard, this gets a little better.
+
+Springjack Pasture             	***
+This is the cheapest way to make tokens repeatedly.  (Feb 2023: Still true only for making blockers!)  It's also a super inefficient storage land, and it can even give you some life.  Gets even better with Trading Post, which works best when you sacrifice Goats.
+
+2009
+
+Reliquary Tower                	***
+Karn doesn't usually have an issue with going over the hand size limit.  Gets a little worse if you’re running Venser’s Journal, something I briefly did in 2012 and have since tried to forget.  In general I prefer Thought Vessel, though.
+
+Unstable Frontier              	*
+For all those times you really want your opponent's landwalkers to hit you.  Seriously though, the only use I can think for this is if one of your lands gets Spreading Seased, you can stop islandwalkers by turning that land into a plains or something.
+
+Gargoyle Castle                	****
+Very solid.  A 3/4 flier gets outclassed by most staple beaters in EDH, but what did you expect from a land?  Besides, put any piece of decent equipment on it and you have a serious threat.  Okay, I’m probably overhyping it; in reality I’m just a sucker for unique tokens as well as gargoyles.
+
+2010
+
+Dread Statuary                 	***
+One of the worst manlands, but even a bad manland is good.
+
+Tectonic Edge                  	*****
+This is overall the best Strip Mine variant, I'd say.  Its drawback of requiring four lands rarely matters, and can even be an upside by preventing you from being too mean and blowing up your opponents’ Karoos too early, thereby enraging them and making you a target later in the game or IRL.
+
+Eye of Ugin                         ***
+A rare land that doesn’t produce mana, though it still functions like a land with its cost reduction.  Personally, I try to keep Eldrazi out of my Karn deck, though even with zero Eldrazi this is worth considering.
+
+Eldrazi Temple                 	***
+This might be worth it, but probably not for artifact-focused builds.  I’d say its true rating is one star plus one additional star for every two Eldrazi in your deck.
+
+Mystifying Maze                	*****
+Yep, 5 stars.  Maybe I've been facing Ob Nixilis of the Black Oath too much recently, but this land just does so much work.  You can even do tricky stuff in multiplayer, like help out someone who wants to reuse Duplicant.  Just the threat of using this, though, is often enough to get people to look the other way.
+
+Glimmerpost                    	*
+Unless you really want to run Cloudpost (which I don't recommend), Seraph Sanctuary and Radiant Fountain are strictly better.
+
+2011
+
+Contested War Zone             	*
+Lands need to have particularly amazing effects if we're going to tolerate any kind of drawback, and turbo-boosting your weenie horde is not really the goal here.
+
+Inkmoth Nexus                  	****
+Twice I've killed someone outright by pumping this up to 10 power.  Did I feel bad about it?  Maybe a little, and that's why it's only 4 stars.  But seriously, it's an alternate win condition built into a land.  At the very least, if you need to chump with this, whatever it blocked won't walk away unscathed.
+
+Phyrexia's Core                	****
+High Market is cheaper to activate, but it can’t sacrifice everything!  Ideal if you’re running Spine of Ish Sah.  When I first wrote this review, OG 1998 Karn was the only colorless (artifact) commander, and he can animate artifacts for High Market, but of course, you can’t count on him always being in play.
+
+Homeward Path                  	****
+This extremely powerful effect is rarely necessary, since your opponents will just play around it.  (Which is an upside in itself.)  Just make sure it’s the last land you play because of that.  It’s especially nasty against effects that steal your creatures out of your deck, like Bribery, since you’ll actually be generating an advantage rather than undoing a theft.
+
+Buried Ruin                    	*****
+Without question one of the best lands in a Karn deck.  Going down a land is a real drawback, but when you’re in a tight spot, this gives you so many possible outs.
+
+2012
+
+Haunted Fengraf                	**
+Mostly it's just a really bad Buried Ruin, but if you're in a tight spot, sometimes this can get you out of it.
+
+Cavern of Souls                	***
+You can make your general uncounterable, along with a few other random dudes, which is not completely useless.  (Your meta may vary.)  However, its benefits are generally outweighed by the "drawback" of costing way too much money.
+
+Seraph Sanctuary               	**
+This rating assumes you're running Moonsilver Spear (which is a fine card, I guess).  Otherwise, this is terrible.  Platinum Angel is the only worthwhile artifact Angel, making this a Radiant Fountain at best.
+
+Cathedral of War               	****
+I am consistently impressed by this, to my own surprise.  Coming into play tapped hurts, but when so few of your lands do, it's easy to play around the drawback.  You feel the benefit most when swinging with a lifelink creature.
+
+Rogue's Passage                	***
+It's a steep cost, especially when you have to commit to using it on your turn, but it's a powerful effect.  Only useful when you really want someone dead and you're sure you can outrace them (or everyone else!), but it can also be used to complicate combat between two of your opponents.
+
+2013
+
+Thespian's Stage               	*****
+Sometimes it’s difficult to find an opportunity to use the ability and you wish you’d drawn Vesuva instead, but it's not difficult to see how much potential this effect has.  Most often I just end up copying Temple of the False God, but be on the lookout for your opponents’ Karoo lands too.  You can also copy crazy double–faced lands that you’d be unable to run, like Itlimoc.
+
+Encroaching Wastes             	***
+If you feel like you need more bad Strip Mine variants, go for it.  There are enough better ones that you really shouldn’t be running this, but it’s not objectively bad.
+
+2014
+
+Radiant Fountain               	**
+2 life is less exciting when you have 40, but it's still something.  Gets a bit better if you’re playing duel commander with 20 life.  You're probably better off playing a land that actually does something a little more significant, though.
+
+Sliver Hive                    	*
+You have to go to great lengths to be able to generate 1/1s that can't even pick up the insane abilities that they're supposed to inherit.  Don't bother.
+
+Tomb of the Spirit Dragon      	****
+This can gain you a great deal of life without even sacrificing anything.  Of course, you do have to have a decent board state.  At least you can animate your noncreature artifacts first if you have the mana.
+
+Arcane Lighthouse              	*****
+Utility lands don't get much better than this.  Of course, in a colorless deck, it’s not like you’re going to follow it up with Doom Blade, but maybe you can win over an ally by enabling their removal.
+
+2015
+
+Haven of the Spirit Dragon     	**
+While it has no downside, it's definitely a contender for smallest upside.  Aside from Ugin, Steel Hellkite is the only reasonable card this works with.  If you do run Ugin, though, I wouldn't fault you for running this.
+
+Crucible of the Spirit Dragon  	**
+Designed for 5-color decks and strictly worse than Mage-Ring Network here.
+
+Foundry of the Consuls         	****
+In general, not as good as Gargoyle Castle, but sometimes you really do need quantity over quality.  That's two chump blocks against giant fliers, two artifacts for Kuldotha Forgemaster, and one extra chance to dodge removal.
+
+Mage-Ring Network              	***
+Storage lands are pretty good, as there are very few effects that are both cheap and that make a difference on future turns.  And sometimes you really have nothing to do in the early game and this lets you ramp from 4 to 5.
+
+Ally Encampment                	*
+Keep that Stonework Puma alive!
+
+Shrine of the Forsaken Gods    	*****
+Almost as good as Temple of the False God, and in certain situations, better.  (It's more comforting to see this one in your opening hand.)  Any land that can generate more than one mana without a drawback is worth running.
+
+Spawning Bed                   	***
+A powerful effect, but I'd probably prefer Foundry of the Consuls over this unless I had more of a ramp deck.
+
+Command Beacon                 	***
+Definitely not useless, but Karn decks aren't often super reliant on having access to their commander.
+
+2016
+
+Mirrorpool                     	****
+Entering play tapped is a drawback, and the first mode is basically unusable.  However, the second mode is immensely powerful.  You can even animate artifacts with Karn to get a copy of noncreature artifacts!
+
+Ruins of Oran-Rief             	***
+Clearly not a bad card, but adding a single +1/+1 counter to your creatures might not always be worth the virtual extra mana, and having to run out a land that enters tapped.  I'd take Cathedral of War over this most of the time.
+
+Sea Gate Wreckage              	****
+While Karn decks don’t end up hellbent very often, this gives you a decent incentive to do so.
+
+Wastes                         	*****
+This card is a real game-changer.  I'd recommend at least one just so you have something to do when you get Ghost Quartered, but beyond that, we can now run cards like Sword of the Animist, Solemn Simulacrum, and Burnished Hart.  Unless you're playing a ramp deck, I can't say I recommend that strategy, since you'd need to play at least five or six (maybe more if you're running the Sword).  But this card alone makes so many cards that were previously unplayable now worthy of consideration.
+June 2024: Okay, I’m bumping this up to five stars.  You kinda just gotta play it.
+
+Drownyard Temple               	**
+Not a whole lot of ways you can synergize with this unless you’re running self-mill for some reason.  It does enable extra Dust Bowl uses.
+
+Geier Reach Sanitarium         	***
+Basically a poor man's Mikokoro, Center of the Sea.  Without many ways to abuse the graveyard, the discard effect is almost pure downside in a colorless deck.  Meanwhile, it may randomly help out someone playing reanimator.  I'd stick with Mikokoro if possible, but this certainly isn't a bad card.
+
+Nephalia Academy               	*
+I guess if your meta is super discard heavy, this could be worth it?  It doesn't even stop card disadvantage, though.  This is not the same sort of tech that Arcane Lighthouse and Homeward Path are.
+
+Throne of the High City        	****
+It's cool that there's a way to get the monarch ball rolling in a colorless deck, and the fact that it's attached to a land, rather than a weak artifact creature, is a nice bonus.  In one-on-one, you can wait until you're in a defensive position, and in multiplayer you can use the crown as a diversion (as long as you're willing to take a hit first).
+
+Aether Hub                     	*
+It's pretty hard to build a colorless energy counter deck.  While this provides some benefit, it's really just a one-shot drop in the bucket.
+
+Inventors' Fair                	*****
+What more could you possibly want in a land?  Like Buried Ruin, this card's power speaks for itself.  Just remember not to clone it with Vesuva.  Also, if you're looking for reasons to include Well of Lost Dreams, this is a good one.
+
+Sequestered Stash              	***
+Generally worse than Buried Ruin in multiple ways, but still, recursion in a land is pretty powerful.
+
+2017
+
+Cradle of the Accursed         	**
+A fine inclusion in an ultra-budget list, this card is outclassed by most other sac-for-tokens lands.
+
+Grasping Dunes                 	***
+Decent anti-utility creature insurance.  Nothing amazing, though.
+
+Sunscorched Desert             	**
+With Crucible of Worlds and a sac outlet, this is funny at best.
+
+Dunes of the Dead              	**
+If you have a lot of land-sacrificing in your deck, I guess this is pretty good, but EDH is all about having tons of mana!  A very small upgrade to Gods' Eye, Gate to the Reikai.
+
+Endless Sands                  	****
+If you like Safe Haven but wished it tapped for mana, here you go.  Endless Sands provides a cheap way to save your creatures from removal, while reusing their enters-the-battlefield triggers.  Just don't count on always getting your creatures back.
+
+Hostile Desert                 	**
+Efficiently priced, but not always available to activate.  I'd probably be happier with Stalking Stones.
+
+Scavenger Grounds              	***
+Karn decks don't often want to exile their own graveyard, but sometimes that's a price you're willing to pay to prevent someone else abusing their graveyard more than you.  Brings up the value of all the other deserts in your deck by a small margin.
+
+Field of Ruin                       **
+Only good in decks running enough Wastes.  It’s fine, but less appealing when it’s not color-fixing you.
+
+2018
+
+Arch of Orazca                 	****
+This is the first land that provides straight-up, reusable, personal card draw.  Sure, it's expensive, but sometimes you stall out and realize you have mana to sink into one of your lands.  This one probably always gets top priority.  And getting the City's Blessing is almost never an issue.
+
+Zhalfirin Void                      **
+While it has a fairly small upside, it’s a free effect with no downside.
+
+Detection Tower                     ****
+Since most creatures have shroud rather than hexproof at this point, this isn’t that much of a downgrade from Arcane Lighthouse.  Of course, opponents with hexproof will be much rarer and Lightning Greaves still shows up a lot.
+
+Forge of Heroes                     ***
+It’s fine, but Karn doesn’t really care about +1/+1 counters.  If we could use a Planeswalker Karn as a commander, this would be a bit better.
+
+Isolated Watchtower                 **
+If your deck is all Wastes for some reason, this is pretty good.  Otherwise, you just get a scry 1, which actually isn’t terrible, but it feels wrong to include in your deck just for that.
+
+2019
+
+Blast Zone                          *****
+A big problem with colorless decks is their access to removal, and now we have it in a land that doesn’t even enter tapped!?  It can’t kill tokens (unless you combo it with Manascape Refactor or Thespian’s Stage [or Ferropede?]) but it does kill everything else.
+
+Emergence Zone				***
+One of the few ways you can actually cast instants in a colorless deck (well, if you’re living in 2022 or later, you could just run Liberator as your general), but losing a land often won’t be worth flashing in some random artifact.
+
+Interplanar Beacon			*
+Best case scenario, it gains you like 3 life over the course of the game.
+
+Karn's Bastion				****
+A situationally powerful effect and a good reason to run Inkmoth Nexus.
+
+Mobilized District		      ***
+Your commander reduces the cost to 3, and that’s a pretty good rate already.  It’s probably better than Dread Statuary, but still not quite a 4-star rating.
+
+Cave of Temptation	            **
+Too small of an effect to make it worth playing.
+
+Frostwalk Bastion: See Mouth of Ronom
+
+Field of the Dead				*****
+Probably the land most likely to win the game on its own.  Obviously you have to wait a while before it starts paying off, but if the game goes on long enough, it can give you a huge advantage.
+
+Cryptic Caves				***
+Provides some insurance against flooding, but I’d rather have a cool ability and not have to go down a land.  I generally prefer Blasted Landscape because cycling it doesn’t use your land drop.
+
+Sanctum of Eternity			**
+Not particularly useful if your general is Karn.  Since it just says “own” you can save him if he’s stolen, though.
+
+2020
+
+Labyrinth of Skophos			*****
+If I gave Mystifying Maze five stars, then I guess I have to give the same score to this one.  It loses the ability to kill tokens and remove stacks of counters, but makes up for it by being able to prevent blocker damage, save your own creatures, and not trigger your opponents’ enter-the-battlefield effects.
+
+Bonder’s Enclave                    ****
+Karn naturally has 4 power, so this works pretty well.  Just make sure you don’t block with Karn before trying to use this!  Probably better than Arch of Orazca most of the time, and compares very favorably to Sea Gate Wreckage.
+
+Nesting Grounds                     ***
+Not bad, but Karn decks won’t have many counters to move around, especially the ability counters that this was meant to be used with.  Although much more expensive to activate, Karn’s Bastion is usually a more effective version of this ability.
+
+Animal Sanctuary                    **
+There are probably only three colorless creatures in existence that have one of these types that you’d consider playing.  And none of them are amazing.  There’s also Mutavault, and let’s not forget about Springjack Pasture, but it’s such a minor effect.
+
+Crawling Barrens                    ****
+You’re not going to be activating this a lot, but it’s probably the best of the bigger manlands.  Compares favorably to Dread Statuary.  Still, if you just want something cheap so you can throw equipment on it, you’re obviously better off with Mishra’s Factory and the like.
+
+Throne of Makindi                   **
+While there are a few good artifacts with kicker, it’s not worth devoting a whole land to them.
+
+Guildless Commons                   *****
+The guild bouncelands are always good to have a few of in your EDH deck, and Karn will gladly play one even if it has no upside when compared to the ones that fix your mana.  Good for resetting your Vesuva, too.  And speaking of copying, this is a great target for Thespian’s Stage.
+
+War Room                            *****
+Wow, there it is, after all these years: repeatable card draw with no downside.  First we had Arch of Orazca, which was quite pricey, then Bonder’s Enclave, which required Karn to be in play.  This one just requires him to be your commander at all.
+
+2021
+
+Faceless Haven: See Mouth of Ronom
+
+Tyrite Sanctum                      ***
+For a Karn deck specifically this is good but not great.  It can save him from removal, but the +1/+1 counters won’t be doing much when he turns into a 0/8 in combat.
+May 2023: Definitely worth running with the new Karn!
+
+Access Tunnel                       **
+No good reason to run this over Rogue’s Passage.
+
+Study Hall                          **
+Paying 1 extra to scry probably isn’t worth it until you’re scrying 3 or more, and at that point you’re paying 9 for your general, so it seems pretty marginal.
+
+Witch’s Clinic                      ***
+Given that Karn isn’t often dealing damage, this is much worse than it would be in most EDH decks.
+May 2023: Okay, we finally have a non-pacifist Karn.  Bumping up to 3 stars.
+
+Power Depot                         ***
+Artifact land alert!  Too bad it’s mostly meant for mana fixing, but it’s still worth considering.  Of course, unless you have a way to sacrifice this at will, the Modular effect is unlikely to matter, as this is most likely to die to a Vandalblast, which would take all your creatures out with it.
+
+Urza’s Saga                         *****
+When I first saw this card, I thought it was just a silly top-down design to highlight how “Urza’s” and “Saga” are both subtypes.  I hoped it would go forgotten so I could pick up a couple for my EDH decks.  But now that it’s one of the most played cards in Modern, as an obligate hipster, I kind of have to hate it.  Obviously this card is absurdly powerful, but keep in mind it does put you down a land unless you’re a degenerate who runs Sol Ring.
+
+Yamimaya, Cradle of Growth: See Urborg, Tomb of Yawgmoth
+
+Dungeon Descent                     ***
+I gotta be honest, I just don’t like the Dungeons & Dragons crossover.  That said, this is a pretty powerful effect to have access to.  Entering tapped is a real downside, but again, so few colorless lands do that it’s not a big deal.  When you compare it to Bonders’ Enclave, though, it starts looking much worse.  That one doesn’t enter tapped, doesn’t require you to tap your general, and provides a better bonus most of the time.
+
+Treasure Vault                      ***
+Not often that you need a ton of treasures, especially when you don’t need to fix your mana.  Compares quite unfavorably to Spawning Bed in most cases.  That said, it is an artifact land, which might be relevant, though unlike Darksteel Citadel, it will get swept up in a Vandalblast.
+
+Underdark Rift                      ****
+Pretty good I guess, though sorcery speed hurts this more than it would other effects.  But still, this is the first time we get fairly real spot removal in land form, so I’ll give it a high mark.
+
+Voldaren Estate                     ***
+I guess you could do worse than a bad Desolate Lighthouse (especially since it makes artifact tokens), but it’s just so inefficient.  Also loses points for having that gold land frame that ruins my immersion.
+
+2022
+
+Mech Hangar                         **
+Aesthetically bad, though could be fringe playable.  I’d rather just run a bad manland like Dread Statuary, which can crew almost any vehicle.
+
+Roadside Reliquary                  *
+Aesthetically bad, and you can almost never draw more than a single card from this.
+
+Crystal Grotto                      *
+Strictly worse than Zhalfirin Void.  You know why.
+
+Plaza of Heroes                     *
+Aesthetically bad!  Not worth holding up 4 lands just to sacrifice this.  Play Tyrite Sanctum if you’re actually looking for an effect like this.
+
+Demolition Field                    **
+See: Field of Ruin.  Probably better since it doesn’t ramp third parties, but not great.
+
+Hall of Tagsin                      ****
+Wow, this is quite good.  Powerstones have almost no restriction in colorless EDH, so this is kind of like a Myriad Landscape that you don’t have to sacrifice.  It also makes fodder for Kuldotha Forgemaster or whatever.  Obligatory bad gold frame.
+
+Mishra’s Foundry                    ***
+Generally worse than Mishra’s Factory, but still generally good.
+
+Tocasia’s Dig Site                  **
+Not terrible, but if you’re already running War Room and Bonder’s Enclave...
+
+Urza’s Workshop                     *****
+Okay, what the frick is this?  Let’s get this out of the way: “Urza’s” should never have been a land type!  The Urzatron should have been name-based, not type-based, and as far as I know, the only reason they created the types was to make the original text work as written, but that’s just not a very good reason, especially when the intent was clearly to reference the name... land types didn’t even really exist when the Urzatron was printed!  And since types have to be a single word, “Urza’s” became a type in itself, which really feels like some kind of bug in the game (don’t get me started on how they had to hyphenate “power-plant”).  Sure, we get Urza’s Saga poking fun at that, but then this card comes along and tries to pretend like it was all intentional!  And fine, sometimes Magic cards can be funny like that, but it still feels wrong.  Now, onto my actual review: this card is good.  I’m personally not a big fan of the Urzatron in colorless commander, but this makes it look fairly tempting.  Urza’s Factory counts too, plus Urza’s Saga, of course (but that one doesn’t stick around too long).  And since Metalcraft is almost always on, this will be producing at least two mana fairly regularly.  Of course, it does force you to play the Urzatron at least and probably Urza’s Factory too, which aren’t going to do that much by themselves.  I can’t say for certain whether it’s worth it, but I like cards that make you commit to the bit.
+
+2023
+
+The Seedcore                        *
+It’s extremely difficult for a colorless deck to turn on this almost worthless ability.
+
+The Mycosynth Gardens               *****
+You won’t get any ETB effects, but what a powerful ability!  This is probably better than Mirrorpool since it can target noncreatures, but you are paying more for it if your target costs more than 5.  This one doesn’t enter tapped, but it does have that unsightly gold frame.  Lots of things to consider, but it’s clearly one of the strongest artifact-related lands.
+
+The Monumental Facade               *
+There are only 2 artifacts with oil counters I’d consider running in colorless EDH, so the upside here is incredibly marginal.  (Omarthis players, take note: Omarthis cares about any kind of counter!)
+
+Mirrex                              *****
+The tokens can’t block, which is the main reason you’d want to make a single 1/1 in EDH.  But opening up an alternate win condition (backed up by Karn’s Bastion and maybe Contagion Engine) is pretty serious.  Yes, Inkmoth Nexus is a better card overall, but this one does play better against removal if you’re really trying to land a hit.  And aside from poison, this also the cheapest way to make tokens on a land if you’re just looking for sacrifice fodder: it’s slightly ahead of Hall of Tagsin for (non-creature) artifacts and Springjack Pasture for (non-artifact) creatures, and way ahead of Urza’s Factory if you want both types.  Thank God it doesn’t have that gold frame, even though it can mana mana of any color!
+
+Drannith Ruins                      ***
+While not a bad card, it compares pretty unfavorably to Ruins of Oran-Rief, having to spend 2 mana to activate (though it doesn’t come into play tapped).  Perhaps the main advantage is being able to play politics by buffing your opponent’s creatures.
+
+2024
+
+Captivating Cave: See Cave of Temptation
+
+Cavernous Maw                       *
+Not a bad rate once you meet the requirements, but it’s just too many caves to ask of a colorless deck!
+
+Echoing Deeps                       ***
+Stacks up poorly against Vesuva, but at least it comes into play untapped by default.
+
+Pit of Offerings                    ***
+Okay, okay, I’ll shut up about the gold frame thing.  This is no Bojuka Bog, but it’s not bad.  If you don’t want to run Scavenger Grounds, this is your only option for graveyard hate in land form.
+
+Sunken Citadel                      ****
+An extra mana for activating all your land abilities is fairly exciting, but maybe not at the cost of coming into play tapped (plus having the dreadful gold frame [Sorry!]).
+
+Volatile Fault                      ***
+Not generally better than Tectonic Edge, but with enough artifact synergies (such as with Karn, Legacy Reforged) you might prefer this over some of the other Strip Mine variants.
+
+Branch of Vitu-Ghazi                **
+I’d make a joke about how your opponents would have to guess whether your face-down creature was Zoetic Cavern or this, but it’s not even true, since it’s Disguise, not Morph.  I guess this one is better than Zoetic Cavern most of the time, but it’s still not worth it.
+
+Scene of the Crime                  ***
+Any artifact land is worth considering, but coming into play tapped hurts, especially when you don’t need the mana fixing.
+
+Bucolic Ranch                       *
+Mentioned for completeness only.
+
+Sandstorm Verge                     ***
+A totally respectable ability, and occasionally better than Rogue’s Passage.  Still, you’re probably just not going to find room for this one unless you’re making some ultra-budget list.
+
+Conduit Pylons                      **
+To think I actually played Zhalfirin Void once upon a time...  Surveil is, of course, usually better, but these effects are just too marginal.
+
+Arid Archway                        *****
+Wow, apparently I gave Guildless Commons 5 stars, and I think I stand by that.  Karoos are good!  Anyway, this is strictly better, both mechanically and aesthetically, since it’s a reference to the real-life Delicate Arch.  Of course, the best colorless Desert is Endless Sands, which is pretty funny since you’re not always going to want to bounce that one.  Maybe Arid Archway makes the original Desert slightly more worthy of consideration, especially since we get a pretty sick borderless version.
+
+Cactus Preserve                     ***
+Huh, I almost missed that this works in colorless, since it actually says “type” and not “color”.  Too bad it comes into play tapped to make up for that ability, since it’s a reasonably powerful manland.
+
+Fomori Vault                        *****
+My God, we’re hitting a critical mass of crazy lands.  I recently just cut Hall of Tagsin, a land that I would have gone nuts for if I’d seen it back in 2011.  There’s not much to say here: this land is obviously built for artifact decks and sometimes you’ll be looking at so many cards it might as well be a repeatable Inventors’ Fair.
+
+Snow-Covered Wastes                 *****
+There’s basically no payoff for having a full snow manabase, but there is one advantage this has: Field of the Dead.  I like the idea of having a perfect singleton deck (mostly for its own aesthetic value), but you probably should be playing at least a couple basics in anticipation of Field of Ruin and Path to Exile.  Now you can in fact play two differently named basics, and you probably should!
+
+Urza’s Cave                         *****
+Another perfect land for Karn, up there with Buried Ruin and Inventors’ Fair.  The land you tutor for does enter tapped, but note that it’s not sorcery speed, making it a weird combo with Pit of Offerings.  Plus, hey, look, another reason to play Urza’s Workshop!
+
+Ugin’s Labyrinth                    *****
+You might not have that many ways to enable this, but any land with the potential to make additional mana without a drawback almost unilaterally deserves 5 stars.
+
+Trenchpost                          **
+Sorry, I still don’t think Cloudpost is worth it.  Well, Cloudpost might be worth it, but playing all the other bad Loci surely isn’t.
+
+Talon Gates of Madara               ****
+One of the great WTF lands.  This can remove an attacker or save one of your own creatures, and it’s perfect for the 2023 Karn since it’ll phase him back in just in time for your mana boost.  It’s pseudo-ramp, too, though it takes you from 4 to 6, so it’s rarely that big of a deal.  Also, another good instant-speed land with Urza’s Cave.
+
+Planar Nexus                        ****
+Perhaps the greatest WTF land of all time.  Seriously, what the frick is this?  Most notably, it single-handedly enables individual pieces of the Urzatron, meaning if you follow this up with Urza’s Tower, you can have 4 mana on turn 2.  Insane.  It also ups your Urza’s count for Urza’s Workshop, lets you surveil off Arid Archway (wowie), and maybe even makes me rethink Cloudpost (and... still no).
+
+Lazotep Quarry                      ****
+Karn decks are usually a bit light on creatures, but eternalizing a Meteor Golem sounds pretty sweet.  Take note that this is also just a sacrifice outlet, which has all sorts of random upsides, including letting you sacrifice that Meteor Golem in the first place if you need to.  It’s another reason to play OG Desert, too!  Modern Horizons is going to end up ruining my aesthetics by making me play too many damn gold-frame lands, though.
+
+Horizon of Progress                 **
+Finally, a bad land.  It might do some interesting things, but nothing powerful enough to make up for its inability to produce mana without bleeding you.
+
+Fountainport                        *****
+Trading Post as a land?  Why not?  This is the cheapest way to make blockers as a land, and while the Treasures are almost strictly worse than Powerstones, the card draw makes up for it.  Also, it’s always nice that your fish don’t get wrecked by Vandalblast!
+
+Soulstone Sanctuary                 ***
+Strictly better than Stalking Stones!  Well, unless your opponent is playing Goatnapper or something.  Not bad, but sometimes you actually want you manlands to de-animate and dodge sweepers.  Also, another reason to run Swarmyard.
+
+2025
+
+Amonkhet Raceway                    ***
+Start your Engines! is not the easiest thing to activate for a Karn deck.  But haste is powerful, especially when the activation cost is a single {T}.
+
+Avishkar Raceway                    **
+Not great.  We have so many incredible card-draw effects in our lands by now that this doesn’t really cut it.  I’d honestly rather play Voldaren Estate.
+
+Muraganda Raceway                   ****
+Well, it’s got those all-important {C}{C} symbols, so it’s certainly worth consideration.  Again, hard to enable, but this one is easily the best of the Raceways.
+
+Accursed Duneyard                   **
+I love mentioning Swarmyard in this document, but this is no upgrade.  Obviously it costs more to activate, but this new batch of creature types is no more useful to a colorless deck.  Swarmyard cars about living things, Duneyard cars about the dead... it’s like no one cares about non-living beings at all!  You might have the occasional spirit or zombie token this can work on, but the whole point of those is they’re expendable.
+
+Maelstrom of the Spirit Dragon      *
+If this were a Haven of the Spirit Dragon variant that could search for Ugins, it would be amazing.  As is, it really only finds Steel Hellkite.
+
+Secluded Starforge                  *****
+I’ve complained about gold frames, I’ve complained about Dungeons and Dragons, and I outright refuse to acknowledge Universes Beyond.  Well, I’m not too fond of Edge of Eternities’s science fiction setting (though I actually prefer it to Duskmorne’s Earth-in-the-1980s level of technology, which I didn’t need to acknowledge because there weren’t any utility lands)... ugh, don’t get me started.  Anyway, they finally made a strictly better (except for creature type) Urza’s Factory.  Speaking of creature types, I still haven’t warmed up to “Robot”, but this land is great and the art is great, and that pump ability is a little awkward but in the right situation it can be devastating.  Hard to cut this one unless you’re a hardcore fantasy purist.
+
+2026
+
+Abundant Countryside               ***
+This land is crazy in a lot of decks, but mostly for the mana fixing and tribal synergies.  It’s certainly not bad, but standards for lands are so high now that, depending on what you’re looking for, you’re almost certainly better off playing Mutavault, Mirrex, or Secluded Starforge.
