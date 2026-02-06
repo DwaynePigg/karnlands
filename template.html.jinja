@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Card Reviews</title>
+    <title>Karn Lands: Reviewing every colorless land for EDH</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,9 +13,9 @@
             margin-bottom: 30px;
         }
         h2 {
-            color: #333;
             border-bottom: 2px solid #666;
             padding-bottom: 5px;
+			width: 800px;
         }
         table {
             width: 800px;
@@ -28,18 +28,29 @@
             padding: 8px;
             border-bottom: 1px solid #ddd;
         }
-        tr:hover {
-            background-color: #f9f9f9;
-        }
+		td:first-child {
+			vertical-align: top;
+		}
+		.card-info {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4px;
+		}
         .rating {
             font-family: monospace;
-            font-weight: bold;
-            color: #d4af37;
+            font-size: 20pt;
+            /* color: #d4af37; */
             white-space: nowrap;
         }
         .card-name {
+			font-family: monospace;
+			font-size: 12pt;
             font-weight: bold;
-            color: #2c5aa0;
+			background-color: black;
+			color: white;
+			underline: none;
+			padding: 4px;
         }
 		.card-image {
 			border-radius: 5px;
@@ -49,25 +60,25 @@
 <body>
     {% for year, reviews in reviews_by_year.items() %}
     <div class="year-section">
-        <h2>{{ year }}</h2>
+        <h2>{{year}}</h2>
         <table>
             <tbody>
-                {% for review in reviews %}
+                {% for review in reviews -%}
                 <tr>
                     <td>
-						<div class="rating">{{ star * review.rating }}</div>
-						<div class="card-name">{{ review.card }}</div>
-						<div class="card-image">
-							<img src="{{image(review.card)}}">
+						<div class="card-info">
+							<div class="rating">{{star * review.rating}}</div>
+							<a href="{{scryfall_url(review.card)}}"><img class="card-image" src="{{image(review.card)}}"></a>
 						</div>
 					</td>
                     <td>
-					{% for para in review.review %}
-					<p>{{ para | escape }}</p>
-					{% endfor %}
+						<a class="card-name" href="{{scryfall_url(review.card)}}">{{review.card}}</a>
+						{% for para in review.review -%}
+						<p>{{link_cards(para)}}</p>
+						{%- endfor %}
 					</td>
                 </tr>
-                {% endfor %}
+                {%- endfor %}
             </tbody>
         </table>
     </div>

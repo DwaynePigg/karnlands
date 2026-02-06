@@ -5,6 +5,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
+import ahocorasick
 import requests
 from jinja2 import Template
 
@@ -54,6 +55,41 @@ def get_scryfall_image(card: str, size: str = 'small') -> str:
 	return requests.get(f"https://api.scryfall.com/cards/{card.code}/{card.cnum}").json()['image_uris'][size]
 
 
+auto = ahocorasick.Automaton()
+for printings in DATABASE.cards_by_name.values():
+	card = printings[0]
+	auto.add_word(card.name, card)
+
+auto.make_automaton()
+
+
+def scryfall_url(card):
+	if isinstance(card, str):
+		card = DATABASE.cards_by_name[card][0]
+	return f"https://scryfall.com/card/{card.code}/{card.cnum}"
+
+
+def link_cards(text):
+	matches = []
+	for end, card in auto.iter(text):
+		start = end - len(card.name) + 1
+		matches.append((start, end + 1, card))
+
+	matches.sort(key=lambda m: (m[0], -(m[1] - m[0])))
+	
+	parts = []
+	pos = 0
+	for start, end, card in matches:
+		if start < pos:
+			continue
+		parts.append(text[pos:start])
+		parts.append(f'<a href="{scryfall_url(card)}">{card.name}</a>')
+		pos = end
+
+	parts.append(text[pos:])
+	return ''.join(parts)
+
+
 with open('template.html.jinja') as f:
     template = Template(f.read())
 
@@ -62,4 +98,6 @@ with open('index.html', 'w', encoding='utf-8') as f:
 		reviews_by_year=reviews_by_year, 
 		star='★',
 		image=get_scryfall_image,
+		scryfall_url=scryfall_url,
+		link_cards=link_cards,
 	))

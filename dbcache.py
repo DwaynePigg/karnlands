@@ -53,6 +53,7 @@ def database_cache(func):
 		raise ValueError('return type must be given')
 
 	origin = typing.get_origin(return_type)
+	# TODO: handle optional tuple?
 	if origin is None or origin is not tuple:
 		columns.append(f"return {get_sql_type(return_type)}")
 		return_columns = ['return']
