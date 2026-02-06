@@ -4,7 +4,7 @@ import functools
 from pathlib import Path
 
 
-SQLITE_TYPES = { int: 'INTEGER', float: 'REAL', str: 'TEXT', bytes: 'BLOB' }
+SQLITE_TYPES = { int: 'INTEGER', float: 'REAL', str: 'TEXT', bytes: 'BLOB', bool: 'INTEGER' }
 db_path=Path('.func.db')
 
 
@@ -15,12 +15,12 @@ def dbcache(func):
 	for name, param in sig.parameters.items():
 		if param.annotation is inspect._empty:
 			raise ValueError(f"type of parameter {name} must be given")
-		columns.append(f"{name} {SQLITE_TYPES.get(param.annotation, 'BLOB')} NOT NULL")
+		columns.append(f"{name} {SQLITE_TYPES.get(param.annotation, 'BLOB')}")
 	try:
 		return_type = func.__annotations__['return']
 	except KeyError:
 		raise ValueError('return type must be given')
-	columns.append(f'return {SQLITE_TYPES.get(return_type, 'BLOB')} NOT NULL')
+	columns.append(f"return {SQLITE_TYPES.get(return_type, 'BLOB')}")
 	conn = sqlite3.connect(Path(db_path))
 	conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())}))")
 	conn.commit()
@@ -44,4 +44,3 @@ def dbcache(func):
 		return result
 
 	return wrapper
-
