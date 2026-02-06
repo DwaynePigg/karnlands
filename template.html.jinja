@@ -41,6 +41,9 @@
             font-weight: bold;
             color: #2c5aa0;
         }
+		.card-image {
+			border-radius: 5px;
+		}
     </style>
 </head>
 <body>
@@ -54,6 +57,9 @@
                     <td>
 						<div class="rating">{{ star * review.rating }}</div>
 						<div class="card-name">{{ review.card }}</div>
+						<div class="card-image">
+							<img src="{{image(review.card)}}">
+						</div>
 					</td>
                     <td>
 					{% for para in review.review %}

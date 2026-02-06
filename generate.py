@@ -1,7 +1,17 @@
 import re
+import sys
+import time
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
+
+import requests
 from jinja2 import Template
+
+sys.path.append(str(Path(__file__).resolve().parents[1] / 'tcgplayer'))
+from magicdatabase import DATABASE
+from dbcache import dbcache
+
 
 @dataclass
 class Review:
@@ -36,8 +46,20 @@ with open('karnlands.txt', encoding='utf-8') as f:
 			current_card.review.append(line)
 
 
-with open('page.html.jinja') as f:
+@dbcache
+def get_scryfall_image(card: str, size: str = 'small') -> str:
+	print(card)
+	time.sleep(0.25)
+	card = DATABASE.cards_by_name[card][0]
+	return requests.get(f"https://api.scryfall.com/cards/{card.code}/{card.cnum}").json()['image_uris'][size]
+
+
+with open('template.html.jinja') as f:
     template = Template(f.read())
 
 with open('index.html', 'w', encoding='utf-8') as f:
-	f.write(template.render(reviews_by_year=reviews_by_year, star='★'))
+	f.write(template.render(
+		reviews_by_year=reviews_by_year, 
+		star='★',
+		image=get_scryfall_image,
+	))
