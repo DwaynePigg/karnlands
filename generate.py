@@ -10,7 +10,7 @@ from jinja2 import Template
 
 sys.path.append(str(Path(__file__).resolve().parents[1] / 'tcgplayer'))
 from magicdatabase import DATABASE
-from dbcache import dbcache
+from dbcache import database_cache
 
 
 @dataclass
@@ -46,7 +46,7 @@ with open('karnlands.txt', encoding='utf-8') as f:
 			current_card.review.append(line)
 
 
-@dbcache
+@database_cache
 def get_scryfall_image(card: str, size: str = 'small') -> str:
 	print(card)
 	time.sleep(0.25)
