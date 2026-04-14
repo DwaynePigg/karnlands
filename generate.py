@@ -23,11 +23,13 @@ class Review:
 
 reviews_by_year = defaultdict(list)
 
+fix_quotes = dict( [ (ord(x), ord(y)) for x,y in zip( u"‘’´“”–-",  u"'''\"\"--") ] ) 
+
 with open('karnlands.txt', encoding='utf-8') as f:
 	current_year = None
 	current_card = None
 	for line in f:
-		line = line.strip()
+		line = line.strip().translate(fix_quotes)
 		if not line:
 			continue
 			
@@ -47,31 +49,41 @@ with open('karnlands.txt', encoding='utf-8') as f:
 			current_card.review.append(line)
 
 
+def get_card(name):
+	return DATABASE.cards_by_name[name.replace('The Urzatron', "Urza's Tower")][0]
+
+
 @database_cache
 def get_scryfall_image(card: str, size: str = 'small') -> str:
 	print(card)
 	time.sleep(0.25)
-	card = DATABASE.cards_by_name[card][0]
+	card = get_card(card)
 	return requests.get(f"https://api.scryfall.com/cards/{card.code}/{card.cnum}").json()['image_uris'][size]
 
 
-auto = ahocorasick.Automaton()
-for printings in DATABASE.cards_by_name.values():
-	card = printings[0]
-	auto.add_word(card.name, card)
+def load_linker():
+	auto = ahocorasick.Automaton()
+	for printings in DATABASE.cards_by_name.values():
+		card = printings[0]
+		if card.name not in {"Clear", "Sacrifice"}:
+			auto.add_word(card.name, card)
 
-auto.make_automaton()
+	auto.make_automaton()
+	return auto
+
+
+CARD_LINKER = load_linker()
 
 
 def scryfall_url(card):
 	if isinstance(card, str):
-		card = DATABASE.cards_by_name[card][0]
+		card = get_card(card)
 	return f"https://scryfall.com/card/{card.code}/{card.cnum}"
 
 
 def link_cards(text):
 	matches = []
-	for end, card in auto.iter(text):
+	for end, card in CARD_LINKER.iter(text):
 		start = end - len(card.name) + 1
 		matches.append((start, end + 1, card))
 
