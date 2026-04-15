@@ -2,7 +2,7 @@ import re
 import sys
 import time
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 import ahocorasick
@@ -12,18 +12,26 @@ from jinja2 import Template
 sys.path.append(str(Path(__file__).resolve().parents[1] / 'tcgplayer'))
 from magicdatabase import DATABASE
 from dbcache import database_cache
+from magic import BASIC_LANDS
 
+fix_quotes = str.maketrans("‘’“”", "''\"\"")
 
 @dataclass
 class Review:
 	card: str
 	rating: int
 	review: list[str]
+	
+	@property
+	def url(self):
+		return scryfall_url(self.card)
+	
+	@property
+	def img(self):
+		return get_scryfall_image(self.card)
 
 
 reviews_by_year = defaultdict(list)
-
-fix_quotes = dict( [ (ord(x), ord(y)) for x,y in zip( u"‘’´“”–-",  u"'''\"\"--") ] ) 
 
 with open('karnlands.txt', encoding='utf-8') as f:
 	current_year = None
@@ -33,12 +41,9 @@ with open('karnlands.txt', encoding='utf-8') as f:
 		if not line:
 			continue
 			
-		elif re.match(r'\d{4}', line):
+		elif re.fullmatch(r'\d{4}', line):
 			current_year = line.strip()
-		
-		elif re.search(r': See', line):
-			card, see = line.split(': See')
-			reviews_by_year[current_year].append(Review(card, 0, [f"See: {see}"]))
+			current_card = None
 
 		elif re.search(r'\s[*?]', line):
 			*name_tokens, rating = line.split()
@@ -46,15 +51,18 @@ with open('karnlands.txt', encoding='utf-8') as f:
 			reviews_by_year[current_year].append(current_card)
 		
 		else:
+			if not current_card:
+				current_card = Review('', 0, [])
+				reviews_by_year[current_year].append(current_card)
 			current_card.review.append(line)
 
 
 def get_card(name):
-	return DATABASE.cards_by_name[name.replace('The Urzatron', "Urza's Tower")][0]
+	return DATABASE.cards_by_name[name.replace("The Urzatron", "Urza's Tower")][0]
 
 
-@database_cache
-def get_scryfall_image(card: str, size: str = 'small') -> str:
+@database_cache(file='scryfallimg.db')
+def get_scryfall_image(card: str, size: str = 'normal') -> str:
 	print(card)
 	time.sleep(0.25)
 	card = get_card(card)
@@ -63,10 +71,18 @@ def get_scryfall_image(card: str, size: str = 'small') -> str:
 
 def load_linker():
 	auto = ahocorasick.Automaton()
+	ignore = {"Clear", "Sacrifice", "Sorry", *BASIC_LANDS}
 	for printings in DATABASE.cards_by_name.values():
 		card = printings[0]
-		if card.name not in {"Clear", "Sacrifice"}:
+		if card.name not in ignore:
 			auto.add_word(card.name, card)
+	
+	def add_nickname(nickname, card_name):
+		card = DATABASE.cards_by_name[card_name][0]
+		auto.add_word(nickname, replace(card, name=nickname))
+	
+	add_nickname("Old Karn", "Karn, Silver Golem")
+	add_nickname("New Karn", "Karn, Legacy Reforged")
 
 	auto.make_automaton()
 	return auto
@@ -81,24 +97,31 @@ def scryfall_url(card):
 	return f"https://scryfall.com/card/{card.code}/{card.cnum}"
 
 
+def smart_quotes(s):
+	def replace(match):
+		c, q = match.groups()
+		return c + ('‘’' if q == "'" else '“”')[bool(c)]
+	return re.sub(r'([a-zA-Z0-9.,?!;:\'\"]?)([\'\"])', replace, s)
+
+
 def link_cards(text):
 	matches = []
 	for end, card in CARD_LINKER.iter(text):
 		start = end - len(card.name) + 1
 		matches.append((start, end + 1, card))
 
-	matches.sort(key=lambda m: (m[0], -(m[1] - m[0])))
-	
+	matches.sort(key=lambda m: (m[0], m[0] - m[1]))
+
 	parts = []
 	pos = 0
 	for start, end, card in matches:
 		if start < pos:
 			continue
-		parts.append(text[pos:start])
+		parts.append(smart_quotes(text[pos:start]))
 		parts.append(f'<a href="{scryfall_url(card)}">{card.name}</a>')
 		pos = end
 
-	parts.append(text[pos:])
+	parts.append(smart_quotes(text[pos:]))
 	return ''.join(parts)
 
 
@@ -109,7 +132,5 @@ with open('index.html', 'w', encoding='utf-8') as f:
 	f.write(template.render(
 		reviews_by_year=reviews_by_year, 
 		star='★',
-		image=get_scryfall_image,
-		scryfall_url=scryfall_url,
 		link_cards=link_cards,
 	))

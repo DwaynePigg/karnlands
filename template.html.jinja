@@ -13,39 +13,48 @@
 			src: url("Source-Serif.ttf");
 		}
 		body {
-			font-family: Arial, sans-serif;
-			margin: 20px;
 			background-color: white;
 			background-image: url("https://www.transparenttextures.com/patterns/black-paper.png");
 		}
-		.year-section {
-			font-size: 16pt;
-			margin-bottom: 30px;
+		.karn-lands {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			max-width: 800px;
+			margin: 20px;
+			font-family: Arial, sans-serif;
+		}
+		h2 {
+			text-align: center;
+			color: white;
+			background-color: black;
+			font-size: 20pt;
+			padding: 12px;
+		}
+		.review-group {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
 		}
 		.review {
 			display: flex;
-			gap: 4px;
-			width: 800px;
-			padding: 4px;
+			gap: 20px;
+			padding: 12px;
 			background-color: white;
 			box-shadow: 4px 4px 4px rgba(0,0,0,0.5);
 			font-size: 12pt;
 			font-family: "Source Serif";
 		}
-		.review:not(:last-child) {
-			margin-bottom: 8px;
-		}
 		.column {
 			display: flex;
 			flex-direction: column;
-			padding: 4px;
 		}
 		.right {
 			flex: 1;
 		}
 		.rating {
 			font-family: monospace;
-			font-size: 20pt;
+			font-size: 24pt;
 			text-align: center;
 			white-space: nowrap;
 		}
@@ -64,32 +73,41 @@
 		.card-image {
 			display: block;
 			border-radius: 5px;
+			width: 240px;
 		}
 	</style>
 </head>
 <body>
-	{% for year, reviews in reviews_by_year.items() %}
-	<div class="year-section">
+	<div class="karn-lands">
+		{% for year, reviews in reviews_by_year.items() %}
 		<h2>{{year}}</h2>
-		<div>
+		<div class="review-group">
 			{% for review in reviews -%}
-			<div class="review">
-				<div class="left column">
-					<div class="rating">{{star * review.rating}}</div>
-					<a href="{{scryfall_url(review.card)}}"><img class="card-image" src="{{image(review.card)}}"></a>
-				</div>
-				<div class="right column">
-					<div><a class="card-name" href="{{scryfall_url(review.card)}}">{{review.card}}</a></div>
-					<div>
-						{% for para in review.review -%}
-						<p>{{link_cards(para)}}</p>
-						{%- endfor %}
+				{%- if review.card -%}
+				<div class="review">
+					<div class="left column">
+						<div class="rating">{{star * review.rating}}</div>
+						<a href="{{review.url}}"><img class="card-image" src="{{review.img}}"></a>
+					</div>
+					<div class="right column">
+						<div><a class="card-name" href="{{review.url}}">{{review.card}}</a></div>
+						<div>
+							{% for para in review.review -%}
+							<p>{{link_cards(para)}}</p>
+							{%- endfor %}
+						</div>
 					</div>
 				</div>
-			</div>
+				{%- else -%}
+				<div class="review column">
+					{% for para in review.review -%}
+					<p>{{link_cards(para)}}</p>
+					{%- endfor %}
+				</div>
+				{%- endif -%}
 			{%- endfor %}
 		</div>
+		{% endfor %}
 	</div>
-	{% endfor %}
 </body>
 </html>
