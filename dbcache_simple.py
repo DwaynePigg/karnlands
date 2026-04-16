@@ -13,7 +13,6 @@ except ImportError:
 
 
 def database_cache(file):
-
 	def decorator(func):
 		sig = inspect.signature(func)
 		table = func.__name__
@@ -52,7 +51,7 @@ def database_cache(file):
 
 		conn = sqlite3.connect(file)
 		conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())}))")
-		conn.commit()		
+		conn.commit()
 		
 		selectors = ' AND '.join(f'{name}=?' for name in sig.parameters.keys())
 		lookup = f"SELECT {', '.join(return_columns)} FROM {table} WHERE {selectors}"
@@ -120,3 +119,4 @@ def _get_union(tp: type) -> type:
 
 def _extend_dataclass(lst, dc):
 	lst.extend(astuple(dc))
+	

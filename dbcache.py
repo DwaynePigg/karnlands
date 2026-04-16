@@ -17,10 +17,16 @@ except ImportError:
 
 # TODO: Annotated custom serializers
 # TODO: forward reference types?
+# TODO: growth_factor
 
+def database_cache(file, max_age=None, max_size=None):
+	advanced = max_age is not None or max_size is not None
 
-def database_cache(file, max_age=sys.maxsize, max_size=sys.maxsize):
-	max_age = _get_age(max_age)
+	if advanced:
+		max_age = _get_age(max_age)
+		max_size = max_size or sys.maxsize
+		if max_age < 1:
+			raise ValueError(f"{max_age=}")
 
 	def decorator(func):
 		sig = inspect.signature(func)
@@ -58,53 +64,83 @@ def database_cache(file, max_age=sys.maxsize, max_size=sys.maxsize):
 		if not return_columns:
 			raise ValueError('return type of empty tuple/dataclass not allowed. Are you just testing me?')
 
-		columns.append('timestamp INTEGER NOT NULL')
-		return_columns.append('timestamp')
+		if advanced:
+			columns.append('timestamp INTEGER NOT NULL')
+			return_columns.append('timestamp')
 
 		conn = sqlite3.connect(file)
+		# TODO: question marks
 		conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())}))")
 		conn.commit()
-		size = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-
+		
 		selectors = ' AND '.join(f'{name}=?' for name in sig.parameters.keys())
 		lookup = f"SELECT {', '.join(return_columns)} FROM {table} WHERE {selectors}"
 
 		insert_placeholders = ', '.join('?' for _ in range(len(sig.parameters) + len(return_columns)))
 		insert_columns = ', '.join(itertools.chain(sig.parameters.keys(), return_columns))
 		insert = f"INSERT OR REPLACE INTO {table} ({insert_columns}) VALUES ({insert_placeholders})"
-		evict = f"DELETE FROM {table} WHERE rowid = (SELECT rowid FROM {table} ORDER BY timestamp ASC LIMIT 1)"
-
-		@functools.wraps(func)
-		def wrapper(*args, max_age=max_age):
-			nonlocal size
+		
+		def get_values(args):
 			bound = sig.bind(*args)
 			bound.apply_defaults()
-			values = list(bound.arguments.values())
-			if not max_age:
-				result = None
-			else:
-				try:
-					result = conn.execute(lookup, values).fetchone()
-				except sqlite3.OperationalError as e:
-					raise ValueError(f"{table} function signature has changed incompatibly") from e
+			return list(bound.arguments.values())
+		
+		def get_cached(values):
+			try:
+				return conn.execute(lookup, values).fetchone()
+			except sqlite3.OperationalError as e:
+				raise ValueError(f"{table} function signature has changed incompatibly") from e
 
-				if result is not None:
-					*return_values, timestamp = result
-					if time.time() - timestamp > _get_age(max_age):
+		if advanced:
+			size = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+			def evict(n):
+				conn.execute(f"DELETE FROM {table} WHERE rowid = (SELECT rowid FROM {table} ORDER BY timestamp ASC LIMIT ?)", (n,))
+			if size > max_size:
+				evict(size - max_size)
+			
+			@functools.wraps(func)
+			def wrapper(*args, max_age=max_age, cache_only=False):
+				nonlocal size
+				values = get_values(args)
+				cached = get_cached(values)
+				if cached is not None:
+					*return_values, timestamp = cached
+					if time.time() - timestamp <= _get_age(max_age):
 						return get_return(return_values)
+				
+				if cache_only:
+					raise ValueError(*args)
 
-			return_values = func(*args)
-			result_concat(values, return_values)
-			append_timestamp(values)
-			conn.execute(insert, values)
-			if result is None:
-				size += 1
-				if size > max_size:
-					conn.execute(evict)
-					size -= 1
+				result = func(*args)
+				result_concat(values, result)
+				values.append(time.time())
+				conn.execute(insert, values)
+				if cached is None:
+					size += 1
+					if size > max_size:
+						evict(1)
+						size -= 1
 
-			conn.commit()
-			return result
+				conn.commit()
+				return result
+		
+		else:
+
+			@functools.wraps(func)
+			def wrapper(*args, cache=1):
+				values = get_values(args)
+				if cache:
+					cached = get_cached(values)
+					if cached is not None:
+						return get_return(cached)
+					if cache == 2:
+						raise ValueError(*args)
+
+				result = func(*args)
+				result_concat(values, result)
+				conn.execute(insert, values)
+				conn.commit()
+				return result
 
 		return wrapper
 
@@ -146,9 +182,13 @@ def _get_union(tp: type) -> type:
 	raise ValueError(f"Union not allowed except to express nullable type: {tp}")
 
 
-def _get_age(age):
-	return age.total_seconds() if isinstance(age, timedelta) else age
-
-
 def _extend_dataclass(lst, dc):
 	lst.extend(astuple(dc))
+
+
+def _get_age(age):
+	if age is None:
+		return sys.maxsize
+	if isinstance(age, timedelta):
+		return age.total_seconds()
+	return age
