@@ -2,12 +2,9 @@ import sqlite3
 import inspect
 import itertools
 import functools
-import sys
-import time
 import types
 import typing
 from dataclasses import is_dataclass, astuple, fields
-from datetime import timedelta
 from pathlib import Path
 try:
 	from types import NoneType
@@ -15,12 +12,7 @@ except ImportError:
 	NoneType = type(None)
 
 
-# TODO: Annotated custom serializers
-# TODO: forward reference types?
-
-
-def database_cache(file, max_age=sys.maxsize, max_size=sys.maxsize):
-	max_age = _get_age(max_age)
+def database_cache(file):
 
 	def decorator(func):
 		sig = inspect.signature(func)
@@ -58,51 +50,31 @@ def database_cache(file, max_age=sys.maxsize, max_size=sys.maxsize):
 		if not return_columns:
 			raise ValueError('return type of empty tuple/dataclass not allowed. Are you just testing me?')
 
-		columns.append('timestamp INTEGER NOT NULL')
-		return_columns.append('timestamp')
-
 		conn = sqlite3.connect(file)
 		conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())}))")
-		conn.commit()
-		size = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-
+		conn.commit()		
+		
 		selectors = ' AND '.join(f'{name}=?' for name in sig.parameters.keys())
 		lookup = f"SELECT {', '.join(return_columns)} FROM {table} WHERE {selectors}"
 
 		insert_placeholders = ', '.join('?' for _ in range(len(sig.parameters) + len(return_columns)))
 		insert_columns = ', '.join(itertools.chain(sig.parameters.keys(), return_columns))
 		insert = f"INSERT OR REPLACE INTO {table} ({insert_columns}) VALUES ({insert_placeholders})"
-		evict = f"DELETE FROM {table} WHERE rowid = (SELECT rowid FROM {table} ORDER BY timestamp ASC LIMIT 1)"
 
 		@functools.wraps(func)
-		def wrapper(*args, max_age=max_age):
-			nonlocal size
+		def wrapper(*args, cache=True):
 			bound = sig.bind(*args)
 			bound.apply_defaults()
 			values = list(bound.arguments.values())
-			if not max_age:
-				result = None
-			else:
-				try:
-					result = conn.execute(lookup, values).fetchone()
-				except sqlite3.OperationalError as e:
-					raise ValueError(f"{table} function signature has changed incompatibly") from e
+			if cache:
+				cur = conn.execute(lookup, values)
+				return_values = cur.fetchone()
+				if return_values is not None:
+					return get_return(return_values)
 
-				if result is not None:
-					*return_values, timestamp = result
-					if time.time() - timestamp > _get_age(max_age):
-						return get_return(return_values)
-
-			return_values = func(*args)
-			result_concat(values, return_values)
-			append_timestamp(values)
+			result = func(*args)
+			result_concat(values, result)
 			conn.execute(insert, values)
-			if result is None:
-				size += 1
-				if size > max_size:
-					conn.execute(evict)
-					size -= 1
-
 			conn.commit()
 			return result
 
@@ -144,10 +116,6 @@ def _get_union(tp: type) -> type:
 		if args[0] is NoneType:
 			return args[1]
 	raise ValueError(f"Union not allowed except to express nullable type: {tp}")
-
-
-def _get_age(age):
-	return age.total_seconds() if isinstance(age, timedelta) else age
 
 
 def _extend_dataclass(lst, dc):
