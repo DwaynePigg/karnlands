@@ -1,7 +1,7 @@
-import sqlite3
+import functools
 import inspect
 import itertools
-import functools
+import sqlite3
 import sys
 import time
 import types
@@ -29,8 +29,7 @@ class Cache:
 		functools.update_wrapper(self, func)
 		self.conn = sqlite3.connect(file)
 		self.func = func
-		sig = inspect.signature(func)
-		self.signature = sig
+		self.signature = inspect.signature(func)
 		self.table = func.__name__
 		
 		column_defs = []
@@ -41,7 +40,7 @@ class Cache:
 			sql_type = get_sql_type(tp)
 			column_defs.append(f"{name} {sql_type}")
 		
-		for name, param in sig.parameters.items():
+		for name, param in self.signature.parameters.items():
 			if param.annotation is inspect._empty:
 				raise ValueError(f"type of parameter {name} must be given")
 			add_column(name, param.annotation)
@@ -72,12 +71,14 @@ class Cache:
 			self.get_return = lambda r: r[0]
 	
 		if timestamp:
-			add_column('timestamp', int)
+			columns.append('timestamp')
+			column_defs.append('timestamp INTEGER NOT NULL')
 		
-		self.conn.execute(f"CREATE TABLE IF NOT EXISTS {self.table} ({', '.join(column_defs)}, PRIMARY KEY({', '.join(sig.parameters.keys())})) WITHOUT ROWID")
+		self.conn.execute(f"CREATE TABLE IF NOT EXISTS {self.table} ({', '.join(column_defs)}, PRIMARY KEY({', '.join(columns[:param_count])})) WITHOUT ROWID")
 		self.conn.commit()
 	
-		self.lookup_cmd = f"SELECT {', '.join(columns[len(sig.parameters):])} FROM {self.table} WHERE {' AND '.join(f'{name}=?' for name in sig.parameters.keys())}"
+		param_count = len(self.signature.parameters)
+		self.lookup_cmd = f"SELECT {', '.join(columns[param_count:])} FROM {self.table} WHERE {' AND '.join(f'{name}=?' for name in columns[:param_count])}"
 		self.insert_cmd = f"INSERT OR REPLACE INTO {self.table} ({', '.join(columns)}) VALUES ({', '.join('?' for _ in columns)})"
 		self.evict_cmd = f"DELETE FROM {self.table} WHERE timestamp <= (SELECT timestamp FROM {self.table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)"
 		self.columns = columns
@@ -190,6 +191,23 @@ class CacheMiss(Exception):
 	pass
 
 
+def identity(x):
+	return x
+
+
+@dataclass(slots=True)
+class Column:
+	name: str = None
+	base_type: type = None
+	sql_type: str = None
+	nullable: bool = None
+	serialize: Callable = None
+	deserialize: Callable = None
+	
+	def sql_type(self):
+		f"{sql_type} NOT NULL" if not self.nullable else sql_type
+
+
 SQLITE_TYPES = {
 	bool: 'INTEGER',
 	int: 'INTEGER',
@@ -199,20 +217,40 @@ SQLITE_TYPES = {
 	bytearray: 'BLOB',
 }
 
-def get_sql_type(tp: type) -> str:
-	origin = typing.get_origin(tp)
-	if origin is types.UnionType or origin is typing.Union:
-		inner = unwrap_union(tp)
-		nullable = True
-	else:
-		inner = tp
-		nullable = False
-
+def get_sql_type(name: str, tp: type):
+	col = Column(name)
+	set_column(tp, col)
 	try:
-		sql_type = SQLITE_TYPES[inner]
+		col.sql_type = SQLITE_TYPES[col.base_type]
 	except KeyError:
 		raise ValueError(f"unsupported type: {tp}")
-	return f"{sql_type} NOT NULL" if not nullable else sql_type
+	return col
+
+
+def set_column(tp: type, col: Column):
+	origin = typing.get_origin(tp)
+	if origin is Annotated:
+		if col.serialize is not None:
+			raise ValueError('Illegal nested annotation')
+		unused, col.serialize , col.deserialize = get_args(tp)
+		try:
+			ser_type = ser.__annotations__['return']
+		except KeyError:
+			raise ValueError('serializer function must have return type')
+		get_sql_type(ser_type, col)
+		return
+	
+	if origin is types.UnionType or origin is typing.Union:
+		inner = unwrap_union(tp)
+		if col.nullable is not None:
+			raise ValueError('Illegal nested optional')
+		col.nullable = True
+		get_sql_type(inner, col)
+		return
+	
+	col.base_type = tp
+	if col.nullable is None:
+		col.nullable = False
 
 
 def unwrap_union(tp: type) -> type:
