@@ -109,11 +109,11 @@ def database_cache(file, max_age=None, max_size=None):
 						return get_return(return_values)
 				
 				if cache_only:
-					raise ValueError(*args)
+					raise CacheMiss(*args)
 
 				result = func(*args)
 				result_concat(values, result)
-				values.append(time.time())
+				values.append(int(time.time()))
 				conn.execute(insert, values)
 				if cached is None:
 					size += 1
@@ -134,7 +134,7 @@ def database_cache(file, max_age=None, max_size=None):
 					if cached is not None:
 						return get_return(cached)
 					if cache == 2:
-						raise ValueError(*args)
+						raise CacheMiss(*args)
 
 				result = func(*args)
 				result_concat(values, result)
@@ -145,6 +145,10 @@ def database_cache(file, max_age=None, max_size=None):
 		return wrapper
 
 	return decorator
+
+
+class CacheMiss(Exception):
+	pass
 
 
 SQLITE_TYPES = {
