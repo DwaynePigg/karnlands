@@ -12,8 +12,6 @@ from pathlib import Path
 from types import NoneType
 
 
-# TODO: Annotated custom serializers
-# TODO: forward reference types?
 _UNSET = object()
 
 
@@ -29,21 +27,15 @@ class Cache:
 		functools.update_wrapper(self, func)
 		self.conn = sqlite3.connect(file)
 		self.func = func
-		self.signature = inspect.signature(func)
 		self.table = func.__name__
+		self.signature = inspect.signature(func)
 		
-		column_defs = []
-		columns = []
-		
-		def add_column(name, tp):
-			columns.append(name)
-			sql_type = get_sql_type(tp)
-			column_defs.append(f"{name} {sql_type}")
+		param_columns = []
 		
 		for name, param in self.signature.parameters.items():
 			if param.annotation is inspect._empty:
 				raise ValueError(f"type of parameter {name} must be given")
-			add_column(name, param.annotation)
+			param_columns.append(Column(name, param.annotation))
 
 		try:
 			return_type = func.__annotations__['return']
@@ -54,57 +46,48 @@ class Cache:
 			raise ValueError('tuple return type must be parameterized')
 
 		if is_dataclass(return_type):
-			return_fields = fields(return_type)
-			for i, f in enumerate(return_fields):
-				add_column(f"return${i}", f.type)
-			self.result_concat = extend_dataclass
-			self.get_return = lambda r: return_type(*r)
+			self.return_handler = DataclassReturn([Column(f"return${i}", f.type) for i, f in enumerate(fields(return_type))], return_type)
 		elif typing.get_origin(return_type) is tuple:
-			args = typing.get_args(return_type)
-			for i, a in enumerate(args):
-				add_column(f"return${i}", a)
-			self.result_concat = list.extend
-			self.get_return = lambda r: r
+			self.return_handler = TupleReturn([Column(f"return${i}", a) for i, a in enumerate(typing.get_args(return_type))])
 		else:
-			add_column('return', return_type)
-			self.result_concat = list.append
-			self.get_return = lambda r: r[0]
-	
-		if timestamp:
-			columns.append('timestamp')
-			column_defs.append('timestamp INTEGER NOT NULL')
+			self.return_handler = SingleReturn(Column(f"return", return_type))
+
+		self.columns = [*param_columns, *self.return_handler.columns]
 		
-		self.conn.execute(f"CREATE TABLE IF NOT EXISTS {self.table} ({', '.join(column_defs)}, PRIMARY KEY({', '.join(columns[:param_count])})) WITHOUT ROWID")
+		if timestamp:
+			self.columns.append(Column('timestamp', int))
+
+		self.conn.execute(f"""
+			CREATE TABLE IF NOT EXISTS {self.table} (
+				{', '.join(col.col_def for col in self.columns)}, 
+				PRIMARY KEY({', '.join(col.name for col in param_columns)})
+			) WITHOUT ROWID""")
 		self.conn.commit()
 	
-		param_count = len(self.signature.parameters)
-		self.lookup_cmd = f"SELECT {', '.join(columns[param_count:])} FROM {self.table} WHERE {' AND '.join(f'{name}=?' for name in columns[:param_count])}"
-		self.insert_cmd = f"INSERT OR REPLACE INTO {self.table} ({', '.join(columns)}) VALUES ({', '.join('?' for _ in columns)})"
-		self.evict_cmd = f"DELETE FROM {self.table} WHERE timestamp <= (SELECT timestamp FROM {self.table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)"
-		self.columns = columns
+		self.lookup_cmd = f"SELECT {', '.join(col.name for col in self.return_handler.columns)} FROM {self.table} WHERE {' AND '.join(f'{col.name}=?' for col in param_columns)}"
+		self.insert_cmd = f"INSERT OR REPLACE INTO {self.table} ({', '.join(col.name for col in self.columns)}) VALUES ({', '.join('?' for _ in self.columns)})"
 
 	def get_values(self, args):
 		bound = self.signature.bind(*args)
 		bound.apply_defaults()
-		return list(bound.arguments.values())
+		return [col.serialize(val) for col, val in zip(self.columns, bound.arguments.values())]
 	
 	def get_cached(self, values):
 		try:
 			return self.conn.execute(self.lookup_cmd, values).fetchone()
 		except sqlite3.OperationalError as e:
 			raise ValueError(f"{self.table} function signature has changed incompatibly") from e
-
+		
 	def clear(self):
 		self.conn.execute(f"DELETE FROM {self.table}")
 		self.conn.commit()
-		self.size = 0
 
 	def vacuum(self):
 		self.conn.execute('VACUUM')
 		self.conn.commit()
 
 	def all_rows(self):
-		return self.conn.execute(f"SELECT {', '.join(self.columns)} FROM {self.table}").fetchall()
+		return self.conn.execute(f"SELECT {', '.join(col.name for col in self.columns)} FROM {self.table}").fetchall()
 
 
 class SimpleCache(Cache):
@@ -114,12 +97,12 @@ class SimpleCache(Cache):
 		if cache:
 			cached = self.get_cached(values)
 			if cached is not None:
-				return self.get_return(cached)
+				return self.return_handler.get(cached)
 			if cache_only:
 				raise CacheMiss(*args)
 
 		result = self.func(*args)
-		self.result_concat(values, result)
+		self.return_handler.concat(values, result)
 		self.conn.execute(self.insert_cmd, values)
 		self.conn.commit()
 		return result
@@ -127,7 +110,8 @@ class SimpleCache(Cache):
 	def contents(self):
 		arg_len = len(self.signature.parameters)
 		for row in self.all_rows():
-			yield row[:arg_len], self.get_return(row[arg_len:])
+			params = tuple(col.deserialize(val) for col, val in zip(self.columns, row[:arg_len]))
+			yield params, self.return_handler.get(row[arg_len:])
 
 
 class TimestampCache(Cache):
@@ -149,6 +133,8 @@ class TimestampCache(Cache):
 			if self.size > max_size:
 				self.evict(self.size - max_size)
 				self.vacuum()
+		
+		self.evict_cmd = f"DELETE FROM {self.table} WHERE timestamp <= (SELECT timestamp FROM {self.table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)"
 
 	def evict(self, count):
 		cur = self.conn.execute(self.evict_cmd, (count,))
@@ -161,13 +147,13 @@ class TimestampCache(Cache):
 			*return_values, timestamp = cached
 			max_age = self.max_age if max_age is _UNSET else get_age(max_age)
 			if time.time() - timestamp <= get_age(max_age):
-				return self.get_return(return_values)
+				return self.return_handler.get(return_values)
 		
 		if cache_only:
 			raise CacheMiss(*args)
 
 		result = self.func(*args)
-		self.result_concat(values, result)
+		self.return_handler.concat(values, result)
 		values.append(int(time.time()))
 		self.conn.execute(self.insert_cmd, values)
 		if cached is None:
@@ -178,13 +164,18 @@ class TimestampCache(Cache):
 		self.conn.commit()
 		return result
 
+	def clear(self):
+		super().clear()
+		self.size = 0
+
 	def all_rows(self):
-		return self.conn.execute(f"SELECT {', '.join(self.columns)} FROM {self.table} ORDER BY timestamp ASC").fetchall()
+		return self.conn.execute(f"SELECT {', '.join(col.name for col in self.columns)} FROM {self.table} ORDER BY timestamp ASC").fetchall()
 
 	def contents(self):
 		arg_len = len(self.signature.parameters)
 		for row in self.all_rows():
-			yield row[:arg_len], self.get_return(row[arg_len:-1]), row[-1]
+			params = tuple(col.deserialize(val) for col, val in zip(self.columns, row[:arg_len]))
+			yield params, self.get_return(row[arg_len:-1]), row[-1]
 
 
 class CacheMiss(Exception):
@@ -193,19 +184,6 @@ class CacheMiss(Exception):
 
 def identity(x):
 	return x
-
-
-@dataclass(slots=True)
-class Column:
-	name: str = None
-	base_type: type = None
-	sql_type: str = None
-	nullable: bool = None
-	serialize: Callable = None
-	deserialize: Callable = None
-	
-	def sql_type(self):
-		f"{sql_type} NOT NULL" if not self.nullable else sql_type
 
 
 SQLITE_TYPES = {
@@ -217,40 +195,40 @@ SQLITE_TYPES = {
 	bytearray: 'BLOB',
 }
 
-def get_sql_type(name: str, tp: type):
-	col = Column(name)
-	set_column(tp, col)
-	try:
-		col.sql_type = SQLITE_TYPES[col.base_type]
-	except KeyError:
-		raise ValueError(f"unsupported type: {tp}")
-	return col
 
+class Column:
+	
+	def __init__(self, name: str, tp: type):
+		self.name = name
+		if typing.get_origin(tp) is typing.Annotated:
+			unused, (self.serialize , self.deserialize) = typing.get_args(tp)
+			try:
+				tp = self.serialize.__annotations__['return']
+			except KeyError:
+				raise ValueError('serializer function must have return type')
+		else:
+			self.serialize = identity
+			self.deserialize = identity
 
-def set_column(tp: type, col: Column):
-	origin = typing.get_origin(tp)
-	if origin is Annotated:
-		if col.serialize is not None:
-			raise ValueError('Illegal nested annotation')
-		unused, col.serialize , col.deserialize = get_args(tp)
+		origin = typing.get_origin(tp)
+		if origin is types.UnionType or origin is typing.Union:
+			self.base_type = unwrap_union(tp)
+			self.nullable = True
+		else:
+			self.base_type = tp
+			self.nullable = False
+		
 		try:
-			ser_type = ser.__annotations__['return']
+			self.sql_type = SQLITE_TYPES[self.base_type]
 		except KeyError:
-			raise ValueError('serializer function must have return type')
-		get_sql_type(ser_type, col)
-		return
+			raise ValueError(f"unsupported type: {tp}")
+
+	@property
+	def col_def(self):
+		return f"{self.name} {self.sql_type}{'' if self.nullable else ' NOT NULL'}"
 	
-	if origin is types.UnionType or origin is typing.Union:
-		inner = unwrap_union(tp)
-		if col.nullable is not None:
-			raise ValueError('Illegal nested optional')
-		col.nullable = True
-		get_sql_type(inner, col)
-		return
-	
-	col.base_type = tp
-	if col.nullable is None:
-		col.nullable = False
+	def __repr__(self):
+		return f"({self.col_def}: >>{self.serialize.__name__}, <<{self.deserialize.__name__})"
 
 
 def unwrap_union(tp: type) -> type:
@@ -263,13 +241,59 @@ def unwrap_union(tp: type) -> type:
 	raise ValueError(f"Union not allowed except to express nullable type: {tp}")
 
 
-def extend_dataclass(lst, dc):
-	lst.extend(astuple(dc))
-
-
 def get_age(age):
 	if age is None:
 		return sys.maxsize
 	if isinstance(age, timedelta):
 		return age.total_seconds()
 	return age
+
+
+class ReturnHandler:
+
+	def concat(self, row, result):
+		raise NotImplementedError
+	
+	def get(self, values):
+		raise NotImplementedError
+
+
+class SingleReturn(ReturnHandler):
+
+	def __init__(self, column):
+		self.column = column
+
+	def concat(self, row, result):
+		row.append(self.column.serialize(result))
+	
+	def get(self, values):
+		return self.column.deserialize(values[0])
+
+	@property
+	def columns(self):
+		return [self.column]
+
+
+class TupleReturn(ReturnHandler):
+
+	def __init__(self, columns):
+		self.columns = columns
+
+	def concat(self, row, result):
+		row.extend(col.serialize(val) for col, val in zip(self.columns, result))
+	
+	def get(self, values):
+		return tuple(col.deserialize(val) for col, val in zip(self.columns, values))
+
+
+class DataclassReturn(ReturnHandler):
+
+	def __init__(self, columns, dataclass_type):
+		self.columns = columns
+		self.dataclass_type = dataclass_type
+	
+	def concat(self, row, result):
+		row.extend(col.serialize(val) for col, val in zip(self.columns, astuple(result)))
+	
+	def get(self, values):
+		return self.dataclass_type(*(col.deserialize(val) for col, val in zip(self.columns, values)))

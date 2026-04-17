@@ -6,10 +6,7 @@ import types
 import typing
 from dataclasses import is_dataclass, astuple, fields
 from pathlib import Path
-try:
-	from types import NoneType
-except ImportError:
-	NoneType = type(None)
+from types import NoneType
 
 
 def database_cache(file):
