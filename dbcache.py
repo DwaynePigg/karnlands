@@ -19,14 +19,21 @@ except ImportError:
 # TODO: forward reference types?
 # TODO: growth_factor
 
-def database_cache(file, max_age=None, max_size=None):
-	advanced = max_age is not None or max_size is not None
+def database_cache(file, max_age=None, max_size=None, evict_batch=None):
 
+	advanced = max_age is not None or max_size is not None
 	if advanced:
 		max_age = _get_age(max_age)
-		max_size = max_size or sys.maxsize
+		if max_size is None:
+			max_size = sys.maxsize
+		else:
+			evict_batch = int(0.2 * max_size)
+
 		if max_age < 1:
 			raise ValueError(f"{max_age=}")
+		
+
+	conn = sqlite3.connect(file)
 
 	def decorator(func):
 		sig = inspect.signature(func)
@@ -68,14 +75,11 @@ def database_cache(file, max_age=None, max_size=None):
 			columns.append('timestamp INTEGER NOT NULL')
 			return_columns.append('timestamp')
 
-		conn = sqlite3.connect(file)
-		# TODO: question marks
-		conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())}))")
+		conn.execute(f"CREATE TABLE IF NOT EXISTS {table} ({', '.join(columns)}, PRIMARY KEY({', '.join(sig.parameters.keys())})) WITHOUT ROWID")
 		conn.commit()
 		
 		selectors = ' AND '.join(f'{name}=?' for name in sig.parameters.keys())
 		lookup = f"SELECT {', '.join(return_columns)} FROM {table} WHERE {selectors}"
-
 		insert_placeholders = ', '.join('?' for _ in range(len(sig.parameters) + len(return_columns)))
 		insert_columns = ', '.join(itertools.chain(sig.parameters.keys(), return_columns))
 		insert = f"INSERT OR REPLACE INTO {table} ({insert_columns}) VALUES ({insert_placeholders})"
@@ -93,8 +97,12 @@ def database_cache(file, max_age=None, max_size=None):
 
 		if advanced:
 			size = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+			
 			def evict(n):
-				conn.execute(f"DELETE FROM {table} WHERE rowid = (SELECT rowid FROM {table} ORDER BY timestamp ASC LIMIT ?)", (n,))
+				nonlocal size
+				cur = conn.execute(f"DELETE FROM {table} WHERE timestamp <= (SELECT timestamp FROM {table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)", (n,))
+				size -= cur.rowcount
+				
 			if size > max_size:
 				evict(size - max_size)
 			
@@ -105,7 +113,7 @@ def database_cache(file, max_age=None, max_size=None):
 				cached = get_cached(values)
 				if cached is not None:
 					*return_values, timestamp = cached
-					if time.time() - timestamp <= _get_age(max_age):
+					if time.time() - timestamp <= _get_age(max_age) * 1000:
 						return get_return(return_values)
 				
 				if cache_only:
@@ -113,13 +121,12 @@ def database_cache(file, max_age=None, max_size=None):
 
 				result = func(*args)
 				result_concat(values, result)
-				values.append(int(time.time()))
+				values.append(int(time.time() * 1000))
 				conn.execute(insert, values)
 				if cached is None:
 					size += 1
 					if size > max_size:
-						evict(1)
-						size -= 1
+						evict(evict_batch)
 
 				conn.commit()
 				return result
@@ -127,13 +134,13 @@ def database_cache(file, max_age=None, max_size=None):
 		else:
 
 			@functools.wraps(func)
-			def wrapper(*args, cache=1):
+			def wrapper(*args, cache=True, cache_only=False):
 				values = get_values(args)
 				if cache:
 					cached = get_cached(values)
 					if cached is not None:
 						return get_return(cached)
-					if cache == 2:
+					if cache_only:
 						raise CacheMiss(*args)
 
 				result = func(*args)
