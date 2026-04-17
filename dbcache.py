@@ -46,16 +46,23 @@ class Cache:
 			raise ValueError('tuple return type must be parameterized')
 
 		if is_dataclass(return_type):
-			self.return_handler = DataclassReturn([Column(f"return${i}", f.type) for i, f in enumerate(fields(return_type))], return_type)
+			return_columns = [Column(f"return${i}", f.type) for i, f in enumerate(fields(return_type))]
+			self.return_handler = DataclassReturn(return_columns, return_type)
 		elif typing.get_origin(return_type) is tuple:
-			self.return_handler = TupleReturn([Column(f"return${i}", a) for i, a in enumerate(typing.get_args(return_type))])
+			return_columns = [Column(f"return${i}", a) for i, a in enumerate(typing.get_args(return_type))]
+			self.return_handler = TupleReturn(return_columns)
 		else:
-			self.return_handler = SingleReturn(Column(f"return", return_type))
+			only_return_column = Column(f"return", return_type)
+			return_columns = [only_return_column]
+			self.return_handler = SingleReturn(only_return_column)
 
-		self.columns = [*param_columns, *self.return_handler.columns]
+
+		lookup_cols = [col.name for col in return_columns]
+		self.columns = [*param_columns, *return_columns]
 		
 		if timestamp:
 			self.columns.append(Column('timestamp', int))
+			lookup_cols.append('timestamp')
 
 		self.conn.execute(f"""
 			CREATE TABLE IF NOT EXISTS {self.table} (
@@ -64,7 +71,7 @@ class Cache:
 			) WITHOUT ROWID""")
 		self.conn.commit()
 	
-		self.lookup_cmd = f"SELECT {', '.join(col.name for col in self.return_handler.columns)} FROM {self.table} WHERE {' AND '.join(f'{col.name}=?' for col in param_columns)}"
+		self.lookup_cmd = f"SELECT {', '.join(lookup_cols)} FROM {self.table} WHERE {' AND '.join(f'{col.name}=?' for col in param_columns)}"
 		self.insert_cmd = f"INSERT OR REPLACE INTO {self.table} ({', '.join(col.name for col in self.columns)}) VALUES ({', '.join('?' for _ in self.columns)})"
 
 	def get_values(self, args):
@@ -268,10 +275,6 @@ class SingleReturn(ReturnHandler):
 	
 	def get(self, values):
 		return self.column.deserialize(values[0])
-
-	@property
-	def columns(self):
-		return [self.column]
 
 
 class TupleReturn(ReturnHandler):
