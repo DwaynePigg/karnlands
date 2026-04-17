@@ -29,13 +29,23 @@ class Cache:
 		functools.update_wrapper(self, func)
 		self.conn = sqlite3.connect(file)
 		self.func = func
-		self.signature = inspect.signature(func)
+		sig = inspect.signature(func)
+		self.signature = sig
 		self.table = func.__name__
+		
+		column_defs = []
 		columns = []
-		for name, param in self.signature.parameters.items():
+		
+		def add_column(name, tp):
+			columns.append(name)
+			sql_type = get_sql_type(tp)
+			column_defs.append(f"{name} {sql_type}")
+		
+		for name, param in sig.parameters.items():
 			if param.annotation is inspect._empty:
 				raise ValueError(f"type of parameter {name} must be given")
-			columns.append(f"{name} {get_sql_type(param.annotation)}")
+			add_column(name, param.annotation)
+
 		try:
 			return_type = func.__annotations__['return']
 		except KeyError:
@@ -46,37 +56,31 @@ class Cache:
 
 		if is_dataclass(return_type):
 			return_fields = fields(return_type)
-			columns.extend(f"return${i} {get_sql_type(f.type)}" for i, f in enumerate(return_fields))
-			return_columns = [f"return${i}" for i in range(len(return_fields))]
+			for i, f in enumerate(return_fields):
+				add_column(f"return${i}", f.type)
 			self.result_concat = extend_dataclass
 			self.get_return = lambda r: return_type(*r)
 		elif typing.get_origin(return_type) is tuple:
 			args = typing.get_args(return_type)
-			columns.extend(f"return${i} {get_sql_type(a)}" for i, a in enumerate(args))
-			return_columns = [f"return${i}" for i in range(len(args))]
+			for i, a in enumerate(args):
+				add_column(f"return${i}", a)
 			self.result_concat = list.extend
 			self.get_return = lambda r: r
 		else:
-			columns.append(f"return {get_sql_type(return_type)}")
-			return_columns = ['return']
+			add_column('return', return_type)
 			self.result_concat = list.append
 			self.get_return = lambda r: r[0]
-		
-		if not return_columns:
-			raise ValueError('return type of empty tuple/dataclass not allowed. Are you just testing me?')
 	
 		if timestamp:
-			columns.append('timestamp INTEGER NOT NULL')
-			return_columns.append('timestamp')
-
-		self.conn.execute(f"CREATE TABLE IF NOT EXISTS {self.table} ({', '.join(columns)}, PRIMARY KEY({', '.join(self.signature.parameters.keys())})) WITHOUT ROWID")
-		self.conn.commit()
+			add_column('timestamp', int)
 		
-		selectors = ' AND '.join(f'{name}=?' for name in self.signature.parameters.keys())
-		self.lookup = f"SELECT {', '.join(return_columns)} FROM {self.table} WHERE {selectors}"
-		insert_placeholders = ', '.join('?' for _ in range(len(self.signature.parameters) + len(return_columns)))
-		insert_columns = ', '.join(itertools.chain(self.signature.parameters.keys(), return_columns))
-		self.insert = f"INSERT OR REPLACE INTO {self.table} ({insert_columns}) VALUES ({insert_placeholders})"
+		self.conn.execute(f"CREATE TABLE IF NOT EXISTS {self.table} ({', '.join(column_defs)}, PRIMARY KEY({', '.join(sig.parameters.keys())})) WITHOUT ROWID")
+		self.conn.commit()
+	
+		self.lookup_cmd = f"SELECT {', '.join(columns[len(sig.parameters):])} FROM {self.table} WHERE {' AND '.join(f'{name}=?' for name in sig.parameters.keys())}"
+		self.insert_cmd = f"INSERT OR REPLACE INTO {self.table} ({', '.join(columns)}) VALUES ({', '.join('?' for _ in columns)})"
+		self.evict_cmd = f"DELETE FROM {self.table} WHERE timestamp <= (SELECT timestamp FROM {self.table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)"
+		self.columns = columns
 
 	def get_values(self, args):
 		bound = self.signature.bind(*args)
@@ -85,7 +89,7 @@ class Cache:
 	
 	def get_cached(self, values):
 		try:
-			return self.conn.execute(self.lookup, values).fetchone()
+			return self.conn.execute(self.lookup_cmd, values).fetchone()
 		except sqlite3.OperationalError as e:
 			raise ValueError(f"{self.table} function signature has changed incompatibly") from e
 
@@ -97,6 +101,9 @@ class Cache:
 	def vacuum(self):
 		self.conn.execute('VACUUM')
 		self.conn.commit()
+
+	def all_rows(self):
+		return self.conn.execute(f"SELECT {', '.join(self.columns)} FROM {self.table}").fetchall()
 
 
 class SimpleCache(Cache):
@@ -112,9 +119,14 @@ class SimpleCache(Cache):
 
 		result = self.func(*args)
 		self.result_concat(values, result)
-		self.conn.execute(self.insert, values)
+		self.conn.execute(self.insert_cmd, values)
 		self.conn.commit()
 		return result
+
+	def contents(self):
+		arg_len = len(self.signature.parameters)
+		for row in self.all_rows():
+			yield row[:arg_len], self.get_return(row[arg_len:])
 
 
 class TimestampCache(Cache):
@@ -138,7 +150,7 @@ class TimestampCache(Cache):
 				self.vacuum()
 
 	def evict(self, count):
-		cur = self.conn.execute(f"DELETE FROM {self.table} WHERE timestamp <= (SELECT timestamp FROM {self.table} ORDER BY timestamp ASC LIMIT 1 OFFSET ?)", (count,))
+		cur = self.conn.execute(self.evict_cmd, (count,))
 		self.size -= cur.rowcount
 
 	def __call__(self, *args, max_age=_UNSET, cache_only=False):
@@ -156,7 +168,7 @@ class TimestampCache(Cache):
 		result = self.func(*args)
 		self.result_concat(values, result)
 		values.append(int(time.time()))
-		self.conn.execute(self.insert, values)
+		self.conn.execute(self.insert_cmd, values)
 		if cached is None:
 			self.size += 1
 			if self.size > self.max_size:
@@ -164,6 +176,14 @@ class TimestampCache(Cache):
 
 		self.conn.commit()
 		return result
+
+	def all_rows(self):
+		return self.conn.execute(f"SELECT {', '.join(self.columns)} FROM {self.table} ORDER BY timestamp ASC").fetchall()
+
+	def contents(self):
+		arg_len = len(self.signature.parameters)
+		for row in self.all_rows():
+			yield row[:arg_len], self.get_return(row[arg_len:-1]), row[-1]
 
 
 class CacheMiss(Exception):
